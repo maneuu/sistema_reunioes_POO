@@ -36,15 +36,16 @@ public abstract class Participante {
         return reunioes;
     }
 
-    // Métodos de relacionamento com reunião
+    // Relacionamento com reunião
 
-    public void adicionarReuniao(Reuniao r) {
+
+    public void adicionarReuniao(Reuniao r) { // apenas chamado por Reuniao
         if (!reunioes.contains(r)) {
             reunioes.add(r);
         }
     }
 
-    public void removerReuniao(Reuniao r) {
+    public void removerReuniao(Reuniao r) { // apenas chamado por Reuniao
         reunioes.remove(r);
     }
 
