@@ -1,7 +1,7 @@
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
- * Programação orientada a objetos
- * Prof. Fausto Maranhão Ayres
+ * Programaï¿½ï¿½o orientada a objetos
+ * Prof. Fausto Maranhï¿½o Ayres
  **********************************/
 package aplicacaoConsole;
 
@@ -9,16 +9,19 @@ import modelo.Participante;
 import modelo.Reuniao;
 import requisitos.Fachada;
 
+
 public class Consultar {
 
 	public Consultar() {
 		try {
+			Fachada.lerObjetos();
+
 			System.out.println("\n---------consulta1-----");
-			System.out.println("---obter os participantes que participaram de 2 reuniões ou mais");
+			System.out.println("---obter os participantes que participaram de 2 reuniÃµes ou mais");
 			for(Participante p : Fachada.consulta1(2)) 
 				System.out.println(p);
 			
-			System.out.println("\n---obter a quantidade de reuniões no mês “02” e ano “2026”");
+			System.out.println("\n---obter a quantidade de reuniÃµes no mÃªs 02 e ano 2026");
 			int total = Fachada.consulta2("02","2026"); 
 				System.out.println(total);
 		}

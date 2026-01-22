@@ -1,13 +1,13 @@
 package repositorio;
 
-import java.io. File;
+import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import modelo.Convidado;
-import modelo. Empregado;
-import modelo. Participante;
+import modelo.Empregado;
+import modelo.Participante;
 import modelo.Reuniao;
 
 public class Repositorio {
@@ -25,7 +25,7 @@ public class Repositorio {
     }
 
     public void adicionarParticipante(Participante p) {
-        participantes. add(p);
+        participantes.add(p);
     }
 
     // Busca de objetos
@@ -95,7 +95,7 @@ public class Repositorio {
         ArrayList<Convidado> lista = new ArrayList<>();
         for (Participante p : participantes) {
             if (p instanceof Convidado) {
-                lista. add((Convidado) p);
+                lista.add((Convidado) p);
             }
         }
         return lista;
@@ -151,7 +151,7 @@ public class Repositorio {
                 this.adicionarReuniao(r);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao ler reunioes. csv: " + e.getMessage());
+            throw new RuntimeException("Erro ao ler reunioes.csv: " + e.getMessage());
         } finally {
             if (arquivo1 != null) arquivo1.close();
         }
@@ -188,7 +188,7 @@ public class Repositorio {
                     String[] idsReunioes = partes[4].split(",");
 
                     for (String idStr : idsReunioes) {
-                        int idReuniao = Integer.parseInt(idStr. trim());
+                        int idReuniao = Integer.parseInt(idStr.trim());
                         Reuniao r = this.localizarReuniao(idReuniao);
 
                         if (r != null) {
@@ -221,7 +221,7 @@ public class Repositorio {
 
         // Gravar participantes
         try {
-            arquivo1 = new FileWriter(new File(".\\participantes. csv").getCanonicalPath());
+            arquivo1 = new FileWriter(new File(".\\participantes.csv").getCanonicalPath());
 
             for (Participante p :  participantes) {
                 String tipo = (p instanceof Empregado) ? "EMPREGADO" : "CONVIDADO";
@@ -253,7 +253,7 @@ public class Repositorio {
 
         // Gravar reuniões
         try {
-            arquivo2 = new FileWriter(new File(". \\reunioes.csv").getCanonicalPath());
+            arquivo2 = new FileWriter(new File(".\\reunioes.csv").getCanonicalPath());
 
             for (Reuniao r : reunioes) {
                 arquivo2.write(r.getId() + ";" + r.getData() + ";" + r.getAssunto() + "\n");
@@ -262,7 +262,7 @@ public class Repositorio {
             arquivo2.close();
 
         } catch (Exception e) {
-            throw new RuntimeException("Problema na gravação de reunioes.csv: " + e. getMessage());
+            throw new RuntimeException("Problema na gravação de reunioes.csv: " + e.getMessage());
         }
     }
 }

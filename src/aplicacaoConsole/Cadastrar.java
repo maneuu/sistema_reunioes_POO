@@ -12,7 +12,7 @@ public class Cadastrar {
 			Fachada.criarEmpregado("carlos", "carlos@gmail.com", "vendas");
 			Fachada.criarEmpregado("joao", "joao@gmail.com", "marketing");
 			Fachada.criarEmpregado("paulo", "paulo@gmail.com", "youtuber");
-			Fachada.criarEmpregado("marcos", "marcos@gmail.com", "inovação");
+			Fachada.criarEmpregado("marcos", "marcos@gmail.com", "inovaï¿½ï¿½o");
 		} catch (Exception e) {
 			System.out.println("--->"+e.getMessage());
 		}	
@@ -27,8 +27,8 @@ public class Cadastrar {
 		try {
 			Fachada.criarReuniao("20/01/2026", "reuniao1", new ArrayList<>(List.of("joao","carlos","ana","maria")));
 			Fachada.criarReuniao("20/02/2026", "reuniao2", new ArrayList<>(List.of("joao","carlos")));
-			Fachada.criarReuniao("20/02/2026", "reuniao3", new ArrayList<>(List.of("joao","carlos")));
-			Fachada.criarReuniao("20/03/2026", "reuniao4", new ArrayList<>(List.of("paulo","marcos")));
+			Fachada.criarReuniao("20/03/2026", "reuniao3", new ArrayList<>(List.of("joao","carlos")));
+			Fachada.criarReuniao("20/04/2026", "reuniao4", new ArrayList<>(List.of("paulo","marcos")));
 		} catch (Exception e) {
 			System.out.println("--->"+e.getMessage());
 		}	

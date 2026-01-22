@@ -1,7 +1,7 @@
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
- * Programação orientada a objetos
- * Prof. Fausto Maranhão Ayres
+ * Programaï¿½ï¿½o orientada a objetos
+ * Prof. Fausto Maranhï¿½o Ayres
  **********************************/
 package aplicacaoConsole;
 
@@ -11,6 +11,7 @@ public class Apagar {
 
 	public Apagar() {
 	System.out.println("---------apagando reuniao 4-----");
+	Fachada.lerObjetos();
 		try {
 			Fachada.cancelarReuniao(4);
 		}

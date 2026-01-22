@@ -1,7 +1,7 @@
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
- * Programação orientada a objetos
- * Prof. Fausto Maranhão Ayres
+ * Programaï¿½ï¿½o orientada a objetos
+ * Prof. Fausto Maranhï¿½o Ayres
  **********************************/
 package aplicacaoConsole;
 
@@ -14,6 +14,9 @@ public class Listar {
 	public Listar() {
 
 		try {
+			// Carregar dados dos arquivos CSV
+			Fachada.lerObjetos();
+			
 			System.out.println("\n---------listagem de participantes-----");
 			for(Participante p : Fachada.listarParticipantes()) 
 				System.out.println(p);

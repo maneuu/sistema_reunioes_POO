@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import repositorio.Repositorio;
 import modelo.Participante;
 import modelo.Empregado;
-import modelo. Convidado;
-import modelo. Reuniao;
+import modelo.Convidado;
+import modelo.Reuniao;
 
 public class Fachada {
 
@@ -61,7 +61,7 @@ public class Fachada {
     }
 
     public static void criarConvidado(String nome, String email, String instituicao) throws Exception {
-        if (nome == null || nome. trim().isEmpty()) {
+        if (nome == null || nome.trim().isEmpty()) {
             throw new Exception("Nome não pode ser vazio");
         }
 
@@ -79,13 +79,14 @@ public class Fachada {
 
         Convidado convidado = new Convidado(nome, email, instituicao);
         repositorio.adicionarParticipante(convidado);
+        gravarObjetos();
     }
 
     // Criar Reunião
 
     public static void criarReuniao(String data, String assunto, ArrayList<String> nomes) throws Exception {
         if (! validarData(data)) {
-            throw new Exception("Data inválida.  Formato esperado: dd/mm/aaaa");
+            throw new Exception("Data inválida.Formato esperado: dd/mm/aaaa");
         }
 
         if (repositorio.existeReuniaoNaData(data)) {
@@ -127,7 +128,8 @@ public class Fachada {
             reuniao.adicionarParticipante(p);
         }
 
-        repositorio. adicionarReuniao(reuniao);
+        repositorio.adicionarReuniao(reuniao);
+        gravarObjetos();
     }
 
     // Modificar Reunião
@@ -148,6 +150,7 @@ public class Fachada {
         }
 
         reuniao.adicionarParticipante(participante);
+        gravarObjetos();
     }
 
     public static void removerParticipanteReuniao(String nome, int id) throws Exception {
@@ -156,7 +159,7 @@ public class Fachada {
             throw new Exception("Reunião com ID " + id + " não encontrada");
         }
 
-        Participante participante = repositorio. localizarParticipante(nome);
+        Participante participante = repositorio.localizarParticipante(nome);
         if (participante == null) {
             throw new Exception("Participante não encontrado: " + nome);
         }
@@ -171,6 +174,7 @@ public class Fachada {
         if (reuniao.getQuantidadeParticipantes() < 2) {
             cancelarReuniao(id);
         }
+        gravarObjetos();
     }
 
     public static void cancelarReuniao(int id) throws Exception {
@@ -184,7 +188,8 @@ public class Fachada {
             reuniao.removerParticipante(p);
         }
 
-        repositorio. removerReuniao(id);
+        repositorio.removerReuniao(id);
+        gravarObjetos();
     }
 
     // Consultas
@@ -206,7 +211,7 @@ public class Fachada {
         int a = Integer.parseInt(ano);
         int contador = 0;
 
-        for (Reuniao r : repositorio. getReunioes()) {
+        for (Reuniao r : repositorio.getReunioes()) {
             String[] partes = r.getData().split("/");
             int mesReuniao = Integer.parseInt(partes[1]);
             int anoReuniao = Integer.parseInt(partes[2]);

@@ -1,7 +1,7 @@
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
- * Programação orientada a objetos
- * Prof. Fausto Maranhão Ayres
+ * Programaï¿½ï¿½o orientada a objetos
+ * Prof. Fausto Maranhï¿½o Ayres
  **********************************/
 package aplicacaoConsole;
 
@@ -10,6 +10,7 @@ import requisitos.Fachada;
 public class Alterar {
 
 	public Alterar() {
+		Fachada.lerObjetos();
 		try {
 			Fachada.removerParticipanteReuniao("joao", 1); 
 			Fachada.removerParticipanteReuniao("carlos", 1); 
