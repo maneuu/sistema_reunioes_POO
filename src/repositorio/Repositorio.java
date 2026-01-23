@@ -28,7 +28,7 @@ public class Repositorio {
         participantes.add(p);
     }
 
-    // Busca de objetos
+    // Busca de objetoss
 
     public Reuniao localizarReuniao(int id) {
         for (Reuniao r : reunioes) {
@@ -48,7 +48,7 @@ public class Repositorio {
         return null;
     }
 
-    // Validações
+    // Validações 
 
     public boolean existeParticipanteComNome(String nome) {
         return localizarParticipante(nome) != null;

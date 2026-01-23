@@ -234,7 +234,7 @@ public class Fachada {
         repositorio.gravarObjetos();
     }
 
-    // Utilitários de Validação
+    // Utilitárioss de Validação
 
     private static boolean validarEmail(String email) {
         if (email == null || email.trim().isEmpty()) {
