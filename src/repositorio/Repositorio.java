@@ -184,7 +184,7 @@ public class Repositorio {
                 this.adicionarParticipante(p);
 
                 // Processar IDs das reuniões (se existirem)
-                if (partes.length > 4 && ! partes[4].isEmpty()) {
+                if (partes.length > 4 && !partes[4].isEmpty()) {
                     String[] idsReunioes = partes[4].split(",");
 
                     for (String idStr : idsReunioes) {
@@ -204,7 +204,7 @@ public class Repositorio {
         }
 
         // Ajustar próximo ID de reunião
-        if (! reunioes.isEmpty()) {
+        if (!reunioes.isEmpty()) {
             int maiorId = 0;
             for (Reuniao r : reunioes) {
                 if (r.getId() > maiorId) {

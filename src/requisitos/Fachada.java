@@ -44,7 +44,7 @@ public class Fachada {
             throw new Exception("Nome não pode ser vazio");
         }
 
-        if (! validarEmail(email)) {
+        if (!validarEmail(email)) {
             throw new Exception("Email inválido");
         }
 
@@ -85,7 +85,7 @@ public class Fachada {
     // Criar Reunião
 
     public static void criarReuniao(String data, String assunto, ArrayList<String> nomes) throws Exception {
-        if (! validarData(data)) {
+        if (!validarData(data)) {
             throw new Exception("Data inválida.Formato esperado: dd/mm/aaaa");
         }
 
@@ -115,7 +115,7 @@ public class Fachada {
         }
 
         for (String nome : nomes) {
-            if (! repositorio.existeParticipanteComNome(nome)) {
+            if (!repositorio.existeParticipanteComNome(nome)) {
                 throw new Exception("Participante não encontrado: " + nome);
             }
         }
@@ -164,7 +164,7 @@ public class Fachada {
             throw new Exception("Participante não encontrado: " + nome);
         }
 
-        if (! reuniao.getParticipantes().contains(participante)) {
+        if (!reuniao.getParticipantes().contains(participante)) {
             throw new Exception("Participante " + nome + " não está na reunião " + id);
         }
 
