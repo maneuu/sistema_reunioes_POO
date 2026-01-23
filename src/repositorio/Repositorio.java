@@ -113,156 +113,110 @@ public class Repositorio {
     // Leitura e gravação de arquivos
 
     public void lerObjetos() {
-        File f1 = null;
-        File f2 = null;
-
         try {
-            // Obter caminho dos arquivos
-            f1 = new File(new File(".\\reunioes.csv").getCanonicalPath());
-            f2 = new File(new File(".\\participantes.csv").getCanonicalPath());
+            File f1 = new File(".\\reunioes.csv");
+            File f2 = new File(".\\participantes.csv");
 
-            // Se não existem, cria arquivos vazios
             if (!f1.exists() || !f2.exists()) {
-                FileWriter arquivo1 = new FileWriter(f1);
-                arquivo1.close();
-                FileWriter arquivo2 = new FileWriter(f2);
-                arquivo2.close();
+                if (!f1.exists()) new FileWriter(f1).close();
+                if (!f2.exists()) new FileWriter(f2).close();
                 return;
             }
 
-        } catch (Exception ex) {
-            throw new RuntimeException("Problema na criação dos arquivos CSV:  " + ex.getMessage());
-        }
-
-        // Ler arquivo de reuniões
-        Scanner arquivo1 = null;
-        try {
-            arquivo1 = new Scanner(f1);
+            // Ler reuniões
+            Scanner arquivo1 = new Scanner(f1);
             while (arquivo1.hasNextLine()) {
                 String linha = arquivo1.nextLine().trim();
                 if (linha.isEmpty()) continue;
 
                 String[] partes = linha.split(";");
-                int id = Integer.parseInt(partes[0]);
-                String data = partes[1];
-                String assunto = partes[2];
-
-                Reuniao r = new Reuniao(id, data, assunto);
-                this.adicionarReuniao(r);
+                Reuniao r = new Reuniao(Integer.parseInt(partes[0]), partes[1], partes[2]);
+                adicionarReuniao(r);
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao ler reunioes.csv: " + e.getMessage());
-        } finally {
-            if (arquivo1 != null) arquivo1.close();
-        }
+            arquivo1.close();
 
-        // Ler arquivo de participantes
-        Scanner arquivo2 = null;
-        try {
-            arquivo2 = new Scanner(f2);
+            // Ler participantes
+            Scanner arquivo2 = new Scanner(f2);
             while (arquivo2.hasNextLine()) {
                 String linha = arquivo2.nextLine().trim();
                 if (linha.isEmpty()) continue;
 
                 String[] partes = linha.split(";");
-                String tipo = partes[0];
-                String nome = partes[1];
-                String email = partes[2];
-                String complemento = partes[3];
-
-                Participante p = null;
-
-                // Criar participante baseado no tipo
-                if (tipo.equals("EMPREGADO")) {
-                    p = new Empregado(nome, email, complemento);
-                } else if (tipo.equals("CONVIDADO")) {
-                    p = new Convidado(nome, email, complemento);
+                
+                // Criar participante
+                Participante p;
+                if (partes[0].equals("EMPREGADO")) {
+                    p = new Empregado(partes[1], partes[2], partes[3]);
                 } else {
-                    throw new RuntimeException("Tipo inválido em participantes.csv: " + tipo);
+                    p = new Convidado(partes[1], partes[2], partes[3]);
                 }
+                
+                adicionarParticipante(p);
 
-                this.adicionarParticipante(p);
-
-                // Processar IDs das reuniões (se existirem)
+                // Relacionar com reuniões
                 if (partes.length > 4 && !partes[4].isEmpty()) {
-                    String[] idsReunioes = partes[4].split(",");
-
-                    for (String idStr : idsReunioes) {
-                        int idReuniao = Integer.parseInt(idStr.trim());
-                        Reuniao r = this.localizarReuniao(idReuniao);
-
-                        if (r != null) {
-                            r.adicionarParticipante(p);
-                        }
+                    for (String idStr : partes[4].split(",")) {
+                        Reuniao r = localizarReuniao(Integer.parseInt(idStr.trim()));
+                        if (r != null) r.adicionarParticipante(p);
                     }
                 }
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao ler participantes.csv: " + e.getMessage());
-        } finally {
-            if (arquivo2 != null) arquivo2.close();
-        }
+            arquivo2.close();
 
-        // Ajustar próximo ID de reunião
-        if (!reunioes.isEmpty()) {
-            int maiorId = 0;
-            for (Reuniao r : reunioes) {
-                if (r.getId() > maiorId) {
-                    maiorId = r.getId();
+            // Ajustar próximo ID
+            if (!reunioes.isEmpty()) {
+                int maiorId = 0;
+                for (Reuniao r : reunioes) {
+                    if (r.getId() > maiorId) maiorId = r.getId();
                 }
+                ajustarProximoId(maiorId);
             }
-            ajustarProximoId(maiorId);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao ler arquivos CSV: " + e.getMessage());
         }
     }
 
     public void gravarObjetos() {
-        FileWriter arquivo1 = null;
-        FileWriter arquivo2 = null;
-
-        // Gravar participantes
         try {
-            arquivo1 = new FileWriter(new File(".\\participantes.csv").getCanonicalPath());
-
-            for (Participante p :  participantes) {
-                String tipo = (p instanceof Empregado) ? "EMPREGADO" : "CONVIDADO";
+            // Gravar participantes
+            FileWriter arquivo1 = new FileWriter(".\\participantes.csv");
+            
+            for (Participante p : participantes) {
+                String tipo;
                 String complemento;
-
+                
                 if (p instanceof Empregado) {
+                    tipo = "EMPREGADO";
                     complemento = ((Empregado) p).getSetor();
                 } else {
+                    tipo = "CONVIDADO";
                     complemento = ((Convidado) p).getInstituicao();
                 }
-
-                String dados = tipo + ";" + p.getNome() + ";" + p.getEmail() + ";" + complemento + ";";
 
                 // Coletar IDs das reuniões
                 ArrayList<String> idsReunioes = new ArrayList<>();
                 for (Reuniao r : p.getReunioes()) {
                     idsReunioes.add(String.valueOf(r.getId()));
                 }
-                String ids = String.join(",", idsReunioes);
-
-                arquivo1.write(dados + ids + "\n");
+                
+                String linha = tipo + ";" + p.getNome() + ";" + p.getEmail() + ";" 
+                             + complemento + ";" + String.join(",", idsReunioes) + "\n";
+                
+                arquivo1.write(linha);
             }
-
             arquivo1.close();
 
-        } catch (Exception e) {
-            throw new RuntimeException("Problema na gravação de participantes.csv: " + e.getMessage());
-        }
-
-        // Gravar reuniões
-        try {
-            arquivo2 = new FileWriter(new File(".\\reunioes.csv").getCanonicalPath());
-
+            // Gravar reuniões
+            FileWriter arquivo2 = new FileWriter(".\\reunioes.csv");
+            
             for (Reuniao r : reunioes) {
                 arquivo2.write(r.getId() + ";" + r.getData() + ";" + r.getAssunto() + "\n");
             }
-
             arquivo2.close();
 
         } catch (Exception e) {
-            throw new RuntimeException("Problema na gravação de reunioes.csv: " + e.getMessage());
+            throw new RuntimeException("Erro ao gravar arquivos CSV: " + e.getMessage());
         }
     }
 }
